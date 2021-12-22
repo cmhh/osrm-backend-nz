@@ -1,0 +1,19 @@
+version: "3.5"
+services:
+  osrm-backend-nz:
+    image: "osrm-backend-nz"
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    # restart: unless-stopped
+    ports:
+      - 5001:5000
+  osrm-frontend:
+    image: "osrm/osrm-frontend"
+    # restart: unless-stopped
+    ports:
+      - 9966:9966
+    environment:
+      - OSRM_BACKEND=http://localhost:5001  
+    depends_on:
+      - osrm-backend-nz
